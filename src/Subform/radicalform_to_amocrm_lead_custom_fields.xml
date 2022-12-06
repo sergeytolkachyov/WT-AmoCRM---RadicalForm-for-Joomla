@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field name="radical_form_field_name"
+           type="text"
+           label="PLG_WT_AMOCRM_RADICALFORM_RADICAL_FORM_FIELD_NAME"/>
+    <field addfieldprefix="Webtolk\Amocrm\Fields"
+           type="Leadcustomfieldslist"
+           name="lead_custom_field_id"
+           label="PLG_WT_AMOCRM_RADICALFORM_LEAD_CUSTOM_FIELD_ID"/>
+</form>

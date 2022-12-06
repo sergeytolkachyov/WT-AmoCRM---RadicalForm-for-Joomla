@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<extension type="plugin" method="upgrade" group="system">
+    <name>PLG_WT_AMOCRM_RADICALFORM</name>
+    <author>Sergey Tolkachyov</author>
+    <authorEmail>info@web-tolk.ru</authorEmail>
+    <authorUrl>https://web-tolk.ru/</authorUrl>
+	<creationDate>05/12/2022</creationDate>
+    <copyright>Sergey Tolkachyov</copyright>
+    <license>GNU General Public License v3.0</license>
+    <version>1.0.0</version>
+    <description>PLG_WT_AMOCRM_RADICALFORM_DESC</description>
+    <namespace path="src">Joomla\Plugin\System\Wt_amocrm_radicalform</namespace>
+    <media folder="media" destination="plg_system_wt_amocrm_radicalform">
+        <folder>js</folder>
+    </media>
+	<files>
+        <folder plugin="wt_amocrm_radicalform">src</folder>
+        <filename>wt_amocrm_radicalform.xml</filename>
+    </files>
+    <languages folder="language" client="administrator">
+        <language tag="en-GB">en-GB/plg_system_wt_amocrm_radicalform.ini</language>
+        <language tag="ru-RU">ru-RU/plg_system_wt_amocrm_radicalform.ini</language>
+        <language tag="en-GB">en-GB/plg_system_wt_amocrm_radicalform.sys.ini</language>
+        <language tag="ru-RU">ru-RU/plg_system_wt_amocrm_radicalform.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field addfieldprefix="Joomla\Plugin\System\Wt_amocrm_radicalform\Fields" type="plugininfo" name="plugininfo"/>
+                <field addfieldprefix="Webtolk\Amocrm\Fields"
+                       type="Leadspipelineslist"
+                       name="pipeline_id"
+                       label="PLG_WT_AMOCRM_RADICALFORM_PIPELINE_ID"
+                       description="PLG_WT_AMOCRM_RADICALFORM_PIPELINE_ID_DESC"
+                       filter="integer"/>
+                <field addfieldprefix="Webtolk\Amocrm\Fields"
+                       type="Leadstagslist"
+                       name="lead_tag_id"
+                       label="PLG_WT_AMOCRM_RADICALFORM_LEAD_TAG_ID"
+                       description="PLG_WT_AMOCRM_RADICALFORM_LEAD_TAG_ID_DESC"/>
+                <field name="radicalform_to_amocrm_lead_custom_fields"
+                       label="PLG_WT_AMOCRM_RADICALFORM_RADICALFORM_TO_AMOCRM_LEAD_CUSTOM_FIELDS"
+                       type="subform"
+                       layout="joomla.form.field.subform.repeatable-table"
+                       formsource="plugins/system/wt_amocrm_radicalform/src/Subform/radicalform_to_amocrm_lead_custom_fields.xml"
+                       multiple="true"
+                       buttons="add,remove"
+                       parentclass="stack"
+                />
+            </fieldset>
+            <fieldset name="form_example" label="PLG_WT_AMOCRM_RADICALFORM_FORM_EXAMPLE_FIELDSET_LABEL">
+                <field type="note" description="PLG_WT_AMOCRM_RADICALFORM_FORM_EXAMPLE"  class="p-3 shadow border-1 col-12"/>
+                <field type="note" description="PLG_WT_AMOCRM_RADICALFORM_FORM_EXAMPLE_DESC" class="alert alert-info col-12"/>
+            </fieldset>
+        </fields>
+    </config>
+	<updateservers>
+			<server type="extension" name="Web-Tolk - WT AmoCRM - RadicalForm">https://web-tolk.ru/component/swjprojects/jupdate.html?element=wt_amocrm_radicalform</server>
+	</updateservers>
+</extension>
