@@ -1,8 +1,11 @@
 <?php
 /**
- *  @package   WT JoomShopping Bitrix24 PRO
- *  @copyright Copyright Sergey Tolkachyov
- *  @license   GNU General Public License version 3, or later
+ * @package     WT Amocrm - Radical From
+ * @version     1.0.1
+ * @Author      Sergey Tolkachyov, https://web-tolk.ru
+ * @copyright   Copyright (C) 2022 Sergey Tolkachyov
+ * @license     GNU/GPL3
+ * @since       1.0.0
  */
 
 defined('_JEXEC') || die;
