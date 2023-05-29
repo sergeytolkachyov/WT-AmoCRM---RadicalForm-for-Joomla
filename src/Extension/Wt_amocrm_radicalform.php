@@ -23,6 +23,15 @@ class Wt_amocrm_radicalform extends CMSPlugin
 {
 
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 *
+	 * @since  3.9.0
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Добавляем js-скрпиты на HTML-фронт
 	 *
 	 * @throws \Exception
