@@ -8,9 +8,9 @@ Plugin for sending data to amoCRM from Joomla feedback forms created using the p
 - creating leads in Amo CRM
 - choosing a sales pipeline to create leads on
 - ability to specify the lead tag when creating
-- the ability to specify the name of the lead - the field rfSubject
+- the ability to specify the name of the lead - the field rfSubject
 - the ability to specify a pipeline for each form - the pipeline_id field in the form
-- the ability to specify for each form its own form_id.
+- the ability to specify for each form its own form_id.
 - form fields named phone and email are defined as phone and email by default
 - definition of all 18 types of UTM tags that are possible in Amo CRM. A js script is added to the site pages, which saves all detected UTM tags into session cookies. If the form is sent after some time or from other pages, UTM tags will still be specified in the lead.
 ## WT Amo CRM library

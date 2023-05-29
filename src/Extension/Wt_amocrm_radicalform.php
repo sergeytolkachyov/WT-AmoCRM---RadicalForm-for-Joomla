@@ -13,6 +13,7 @@
 namespace Joomla\Plugin\System\Wt_amocrm_radicalform\Extension;
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
@@ -232,9 +233,21 @@ class Wt_amocrm_radicalform extends CMSPlugin
 		 */
 		$amocrm = new Amocrm();
 		$result = $amocrm->createLeadsComplex($leads);
-//		$result = (array) $result;
-//		$lead_id    = $result[0]->id;
+		$result = (array) $result;
+		$lead_id    = $result[0]->id;
 //		$contact_id = $result[0]->contact_id;
+
+		$notes = [];
+
+		$notes[] = [
+			'created_by' => 0, // 0 - создал робот
+			'note_type'  => 'common',
+			'params'     => [
+				'text'    => Text::_('PLG_WT_AMOCRM_RADICALFORM_FORM_SENT_FROM_PAGE').$input['url'],
+			]
+		];
+
+		$notes_result = $amocrm->addNotes('leads', $lead_id, $notes);
 
 		return true;
 	}
@@ -242,9 +255,9 @@ class Wt_amocrm_radicalform extends CMSPlugin
 	/**
 	 * Function checks the utm marks and set its to array fields
 	 *
-	 * @param  $lead_data        array    Bitrix24 array data
+	 * @param  $lead_data array    AmoCRM array data
 	 *
-	 * @return            array    Bitrix24 array data with UTMs
+	 * @return            array    AmoCRM array data with UTMs
 	 * @since    1.0.0
 	 */
 	private function checkUtms(&$lead_data): array

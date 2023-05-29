@@ -4,10 +4,10 @@
     <author>Sergey Tolkachyov</author>
     <authorEmail>info@web-tolk.ru</authorEmail>
     <authorUrl>https://web-tolk.ru/</authorUrl>
-	<creationDate>05/12/2022</creationDate>
+	<creationDate>29/05/2023</creationDate>
     <copyright>Sergey Tolkachyov</copyright>
     <license>GNU General Public License v3.0</license>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>PLG_WT_AMOCRM_RADICALFORM_DESC</description>
     <namespace path="src">Joomla\Plugin\System\Wt_amocrm_radicalform</namespace>
     <media folder="media" destination="plg_system_wt_amocrm_radicalform">
