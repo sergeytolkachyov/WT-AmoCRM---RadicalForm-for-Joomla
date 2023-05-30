@@ -1,11 +1,11 @@
 <?php
 /**
  * @package     WT Amocrm - Radical From
- * @version     1.0.1
+ * @version     1.0.0
  * @Author      Sergey Tolkachyov, https://web-tolk.ru
  * @copyright   Copyright (C) 2022 Sergey Tolkachyov
  * @license     GNU/GPL3
- * @since       1.0.0
+ * @since       1.0
  */
 
 // No direct access
@@ -102,8 +102,8 @@ class Wt_amocrm_radicalform extends CMSPlugin
 
 		$lead_data['_embedded']['metadata'] = [
 			'category'     => 'forms',
-			'form_id'      => (isset($input['form_id']) && !empty($input['form_id'])) ? $input['form_id']: 1,
-			'form_name'    => (isset($input['rfSubject']) && !empty($input['rfSubject'])) ? $input['rfSubject']: 'Call back from site',
+			'form_id'      => (isset($input['form_id']) && !empty($input['form_id'])) ? $input['form_id'] : 1,
+			'form_name'    => (isset($input['rfSubject']) && !empty($input['rfSubject'])) ? $input['rfSubject'] : 'Call back from site',
 			'form_page'    => $input['url'],
 			'form_sent_at' => (new Date('now'))->toUnix(),
 		];
@@ -203,15 +203,18 @@ class Wt_amocrm_radicalform extends CMSPlugin
 			}
 		}//end foreach Process form data
 
-		if(!empty($this->params->get('radicalform_to_amocrm_lead_custom_fields'))){
-			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value){
+		if (!empty($this->params->get('radicalform_to_amocrm_lead_custom_fields')))
+		{
+			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value)
+			{
 				$radical_form_field_name = $value->radical_form_field_name;
 
-				if(array_key_exists($radical_form_field_name,$input) && !empty($input[$radical_form_field_name])){
+				if (array_key_exists($radical_form_field_name, $input) && !empty($input[$radical_form_field_name]))
+				{
 
-					$lead_custom_field_array = [
+					$lead_custom_field_array             = [
 						'field_id' => (int) $value->lead_custom_field_id,
-						'values'     => [
+						'values'   => [
 							[
 								'value' => $input[$radical_form_field_name]
 							]
@@ -240,10 +243,10 @@ class Wt_amocrm_radicalform extends CMSPlugin
 		/**
 		 * Create a lead
 		 */
-		$amocrm = new Amocrm();
-		$result = $amocrm->createLeadsComplex($leads);
-		$result = (array) $result;
-		$lead_id    = $result[0]->id;
+		$amocrm  = new Amocrm();
+		$result  = $amocrm->createLeadsComplex($leads);
+		$result  = (array) $result;
+		$lead_id = $result[0]->id;
 //		$contact_id = $result[0]->contact_id;
 
 		$notes = [];
@@ -252,7 +255,7 @@ class Wt_amocrm_radicalform extends CMSPlugin
 			'created_by' => 0, // 0 - создал робот
 			'note_type'  => 'common',
 			'params'     => [
-				'text'    => Text::_('PLG_WT_AMOCRM_RADICALFORM_FORM_SENT_FROM_PAGE').$input['url'],
+				'text' => Text::_('PLG_WT_AMOCRM_RADICALFORM_FORM_SENT_FROM_PAGE') . $input['url'],
 			]
 		];
 
@@ -264,9 +267,9 @@ class Wt_amocrm_radicalform extends CMSPlugin
 	/**
 	 * Function checks the utm marks and set its to array fields
 	 *
-	 * @param  $lead_data array    AmoCRM array data
+	 * @param  $lead_data        array    Bitrix24 array data
 	 *
-	 * @return            array    AmoCRM array data with UTMs
+	 * @return            array    Bitrix24 array data with UTMs
 	 * @since    1.0.0
 	 */
 	private function checkUtms(&$lead_data): array
