@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     WT Amocrm - Radical From
- * @version     1.0.0
+ * @version     1.0.3
  * @Author      Sergey Tolkachyov, https://web-tolk.ru
  * @copyright   Copyright (C) 2022 Sergey Tolkachyov
  * @license     GNU/GPL3
@@ -13,21 +13,20 @@
 namespace Joomla\Plugin\System\Wt_amocrm_radicalform\Extension;
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
 use Webtolk\Amocrm\Amocrm;
+use Joomla\CMS\Language\Text;
 
 class Wt_amocrm_radicalform extends CMSPlugin
 {
 
 	/**
-	 * Load the language file on instantiation.
+	 * Load the language file
 	 *
 	 * @var    boolean
-	 *
-	 * @since  3.9.0
+	 * @since  1.0.2
 	 */
 	protected $autoloadLanguage = true;
 
@@ -102,8 +101,8 @@ class Wt_amocrm_radicalform extends CMSPlugin
 
 		$lead_data['_embedded']['metadata'] = [
 			'category'     => 'forms',
-			'form_id'      => (isset($input['form_id']) && !empty($input['form_id'])) ? $input['form_id'] : 1,
-			'form_name'    => (isset($input['rfSubject']) && !empty($input['rfSubject'])) ? $input['rfSubject'] : 'Call back from site',
+			'form_id'      => (isset($input['form_id']) && !empty($input['form_id'])) ? $input['form_id']: 1,
+			'form_name'    => (isset($input['rfSubject']) && !empty($input['rfSubject'])) ? $input['rfSubject']: 'Call back from site',
 			'form_page'    => $input['url'],
 			'form_sent_at' => (new Date('now'))->toUnix(),
 		];
@@ -203,18 +202,15 @@ class Wt_amocrm_radicalform extends CMSPlugin
 			}
 		}//end foreach Process form data
 
-		if (!empty($this->params->get('radicalform_to_amocrm_lead_custom_fields')))
-		{
-			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value)
-			{
+		if(!empty($this->params->get('radicalform_to_amocrm_lead_custom_fields'))){
+			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value){
 				$radical_form_field_name = $value->radical_form_field_name;
 
-				if (array_key_exists($radical_form_field_name, $input) && !empty($input[$radical_form_field_name]))
-				{
+				if(array_key_exists($radical_form_field_name,$input) && !empty($input[$radical_form_field_name])){
 
-					$lead_custom_field_array             = [
+					$lead_custom_field_array = [
 						'field_id' => (int) $value->lead_custom_field_id,
-						'values'   => [
+						'values'     => [
 							[
 								'value' => $input[$radical_form_field_name]
 							]
