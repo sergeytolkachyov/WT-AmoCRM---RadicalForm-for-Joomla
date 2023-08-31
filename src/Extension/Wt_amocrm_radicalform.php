@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     WT Amocrm - Radical From
- * @version     1.0.3
+ * @version     1.0.4
  * @Author      Sergey Tolkachyov, https://web-tolk.ru
  * @copyright   Copyright (C) 2022 Sergey Tolkachyov
  * @license     GNU/GPL3
@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
+use Joomla\Event\SubscriberInterface;
 use Webtolk\Amocrm\Amocrm;
 use Joomla\CMS\Language\Text;
 
@@ -38,7 +39,7 @@ class Wt_amocrm_radicalform extends CMSPlugin
 	 */
 	function onAfterDispatch()
 	{
-		// We are not work in Joomla API or CLI ar Admin area
+		// We are not work in Joomla API or CLI or Admin area
 		if (!Factory::getApplication()->isClient('site')) return;
 
 		$doc = Factory::getApplication()->getDocument();
@@ -65,7 +66,8 @@ class Wt_amocrm_radicalform extends CMSPlugin
 	 * @param $params   object        это объект, содержащий все параметры плагина и вспомогательные данные, которые известны при отправке формы. Например здесь можно получить адрес папки, куда были загружены фотографии (их можно переместить в нужное вам место):
 	 *
 	 * @return bool
-	 * @see https://hika.su/rasshireniya/radical-form
+	 * @see  https://hika.su/rasshireniya/radical-form
+	 * @link https://web-tolk.ru
 	 */
 	public function onBeforeSendRadicalForm($clear, $input, $params)
 	{
@@ -75,7 +77,7 @@ class Wt_amocrm_radicalform extends CMSPlugin
 		];
 
 		// Название сделки в Amo CRM
-		if (isset($input["rfSubject"]) && (!empty($input["rfSubject"])))
+		if (!empty($input["rfSubject"]))
 		{
 			$lead_data['name'] = $input["rfSubject"];
 
@@ -85,38 +87,38 @@ class Wt_amocrm_radicalform extends CMSPlugin
 			$lead_data['name'] = $params->get('rfSubject');
 		}
 
-		if (isset($input['pipeline_id']) && (!empty($input['pipeline_id'])))
+		if (!empty($input['pipeline_id']))
 		{
-			$lead_data['pipeline_id'] = $input['pipeline_id'];
+			$lead_data['pipeline_id'] = (int) $input['pipeline_id'];
 		}
 		elseif (!empty($this->params->get('pipeline_id')))
 		{
-			$lead_data['pipeline_id'] = $this->params->get('pipeline_id');
+			$lead_data['pipeline_id'] = (int) $this->params->get('pipeline_id');
 		}
 
 		if (!empty($this->params->get('status_id')))
 		{
-			$lead_data['status_id'] = $this->params->get('status_id');
+			$lead_data['status_id'] = (int) $this->params->get('status_id');
 		}
 
 		$lead_data['_embedded']['metadata'] = [
 			'category'     => 'forms',
-			'form_id'      => (isset($input['form_id']) && !empty($input['form_id'])) ? $input['form_id']: 1,
-			'form_name'    => (isset($input['rfSubject']) && !empty($input['rfSubject'])) ? $input['rfSubject']: 'Call back from site',
+			'form_id'      => (isset($input['form_id']) && !empty($input['form_id'])) ? $input['form_id'] : 1,
+			'form_name'    => (isset($input['rfSubject']) && !empty($input['rfSubject'])) ? $input['rfSubject'] : 'Call back from site',
 			'form_page'    => $input['url'],
 			'form_sent_at' => (new Date('now'))->toUnix(),
 		];
 
 
 		// URL страницы, с которой отправлена форма
-		if (isset($input["url"]) && (!empty($input["url"])))
+		if (!empty($input["url"]))
 		{
 			$lead_data['_embedded']['metadata']['referer'] = $input['url'];
 		}
 		$contact = [];
 
 		// URL страницы, с которой отправлена форма
-		if (isset($input["name"]) && (!empty($input["name"])))
+		if (!empty($input["name"]))
 		{
 			$contact['first_name'] = $input['name'];
 		}
@@ -144,8 +146,6 @@ class Wt_amocrm_radicalform extends CMSPlugin
 						];
 
 					}//end FOREACH
-
-
 				}
 				else
 				{
@@ -202,15 +202,18 @@ class Wt_amocrm_radicalform extends CMSPlugin
 			}
 		}//end foreach Process form data
 
-		if(!empty($this->params->get('radicalform_to_amocrm_lead_custom_fields'))){
-			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value){
+		if (!empty($this->params->get('radicalform_to_amocrm_lead_custom_fields')))
+		{
+			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value)
+			{
 				$radical_form_field_name = $value->radical_form_field_name;
 
-				if(array_key_exists($radical_form_field_name,$input) && !empty($input[$radical_form_field_name])){
+				if (array_key_exists($radical_form_field_name, $input) && !empty($input[$radical_form_field_name]))
+				{
 
-					$lead_custom_field_array = [
+					$lead_custom_field_array             = [
 						'field_id' => (int) $value->lead_custom_field_id,
-						'values'     => [
+						'values'   => [
 							[
 								'value' => $input[$radical_form_field_name]
 							]
@@ -257,7 +260,6 @@ class Wt_amocrm_radicalform extends CMSPlugin
 
 		$notes_result = $amocrm->addNotes('leads', $lead_id, $notes);
 
-		return true;
 	}
 
 	/**
