@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
 use Joomla\Event\SubscriberInterface;
+use phpseclib3\File\ASN1\Maps\KeyPurposeId;
 use Webtolk\Amocrm\Amocrm;
 use Joomla\CMS\Language\Text;
 
@@ -80,7 +81,6 @@ class Wt_amocrm_radicalform extends CMSPlugin
 		if (!empty($input["rfSubject"]))
 		{
 			$lead_data['name'] = $input["rfSubject"];
-
 		}
 		else
 		{
@@ -227,10 +227,34 @@ class Wt_amocrm_radicalform extends CMSPlugin
 		$lead_data['_embedded']['contacts'][] = $contact;
 
 
-		if ($this->params->get('lead_tag_id', 0) > 0)
+		if (isset($input['lead_tag_id']))
+		{
+			// more than one comma separated tag
+			if (strpos($input['lead_tag_id'], ',') !== false)
+			{
+
+				$tags      = explode(',', $input['lead_tag_id']);
+				$lead_tags = [];
+				foreach ($tags as $tag_id)
+				{
+					$lead_tags[] = [
+						'id' => (int) trim($tag_id)
+					];
+				}
+
+				$lead_data['_embedded']['tags'] = $lead_tags;
+
+			}
+			else
+			{
+				$lead_data['_embedded']['tags'][0]['id'] = (int) trim($input['lead_tag_id']);
+			}
+		}
+		elseif ($this->params->get('lead_tag_id', 0) > 0)
 		{
 			$lead_data['_embedded']['tags'][0]['id'] = (int) $this->params->get('lead_tag_id');
 		}
+
 
 		/**
 		 * Add UTMs into array
