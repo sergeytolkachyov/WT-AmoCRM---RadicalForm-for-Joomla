@@ -1,11 +1,11 @@
 <?php
 /**
- * @package     WT Amocrm - Radical From
- * @version     1.0.4
- * @Author      Sergey Tolkachyov, https://web-tolk.ru
- * @copyright   Copyright (C) 2022 Sergey Tolkachyov
- * @license     GNU/GPL3
- * @since       1.0
+ * @package    WT Amocrm - Radical From
+ * @version    1.1.0
+ * @author Sergey Tolkachyov <https://web-tolk.ru>
+ * @сopyright (c) 2022 - September 2023 Sergey Tolkachyov. All rights reserved.
+ * @license    GNU/GPL 3 license
+ * @link https://web-tolk.ru
  */
 
 // No direct access
