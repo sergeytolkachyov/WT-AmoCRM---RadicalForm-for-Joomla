@@ -215,7 +215,7 @@ class Wt_amocrm_radicalform extends CMSPlugin
 						'field_id' => (int) $value->lead_custom_field_id,
 						'values'   => [
 							[
-								'value' => $input[$radical_form_field_name]
+								'value' => ((is_array($input[$radical_form_field_name])) ? implode(', ', $input[$radical_form_field_name]) : $input[$radical_form_field_name])
 							]
 						]
 					];
