@@ -17,20 +17,30 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
 use Joomla\Event\SubscriberInterface;
-use phpseclib3\File\ASN1\Maps\KeyPurposeId;
 use Webtolk\Amocrm\Amocrm;
 use Joomla\CMS\Language\Text;
 
-class Wt_amocrm_radicalform extends CMSPlugin
+class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 {
 
-	/**
-	 * Load the language file
-	 *
-	 * @var    boolean
-	 * @since  1.0.2
-	 */
 	protected $autoloadLanguage = true;
+	protected $allowLegacyListeners = false;
+
+	/**
+	 *
+	 * @return array
+	 *
+	 * @throws \Exception
+	 * @since 4.1.0
+	 *
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onAfterDispatch' => 'onAfterDispatch',
+			'onBeforeSendRadicalForm' => 'onBeforeSendRadicalForm',
+		];
+	}
 
 	/**
 	 * Добавляем js-скрпиты на HTML-фронт
@@ -38,18 +48,12 @@ class Wt_amocrm_radicalform extends CMSPlugin
 	 * @throws \Exception
 	 * @since 1.0.0
 	 */
-	function onAfterDispatch()
+	function onAfterDispatch($event) : void
 	{
 		// We are not work in Joomla API or CLI or Admin area
-		if (!Factory::getApplication()->isClient('site')) return;
+		if (!$this->getApplication()->isClient('site')) return;
 
-		$doc = Factory::getApplication()->getDocument();
-		// We are work only in HTML, not JSON, RSS etc.
-		if (!($doc instanceof \Joomla\CMS\Document\HtmlDocument))
-		{
-			return;
-		}
-
+		$doc = $this->getApplication()->getDocument();
 		$wa = $doc->getWebAssetManager();
 		// Show plugin version in browser console from js-script for UTM
 		$wt_amocrm_radicalform_plugin_info = simplexml_load_file(JPATH_SITE . "/plugins/system/wt_amocrm_radicalform/wt_amocrm_radicalform.xml");
@@ -66,12 +70,18 @@ class Wt_amocrm_radicalform extends CMSPlugin
 	 * @param $input    array    это полный массив данных, включая все вспомогательные данные о пользователе и передаваемой форме. Этот массив передается по ссылке и у вас есть возможность изменить переданные данные. В примере выше именно это и происходит, когда вместо вбитого в форму имени устанавливается фиксированная константа.
 	 * @param $params   object        это объект, содержащий все параметры плагина и вспомогательные данные, которые известны при отправке формы. Например здесь можно получить адрес папки, куда были загружены фотографии (их можно переместить в нужное вам место):
 	 *
-	 * @return bool
+	 * @return void
 	 * @see  https://hika.su/rasshireniya/radical-form
 	 * @link https://web-tolk.ru
 	 */
-	public function onBeforeSendRadicalForm($clear, $input, $params)
+	public function onBeforeSendRadicalForm($event) : void
 	{
+		[$clear, $input, $params] = array_values($event->getArguments());
+
+		if (isset($input['stop_amo']))
+		{
+			return;
+		}
 
 		$lead_data = [
 			'created_by' => 0, //ID пользователя, создающий сделку. При передаче значения 0, сделка будет считаться созданной роботом. Поле не является обязательным

@@ -11,13 +11,14 @@
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Wt_amocrm_radicalform\Extension\Wt_amocrm_radicalform;
 
-return new class implements ServiceProviderInterface {
+return new class () implements ServiceProviderInterface {
 	/**
 	 * Registers the service provider with a DI container.
 	 *
@@ -34,7 +35,9 @@ return new class implements ServiceProviderInterface {
 			function (Container $container) {
 				$subject = $container->get(DispatcherInterface::class);
 				$config  = (array) PluginHelper::getPlugin('system', 'wt_amocrm_radicalform');
-				return new Wt_amocrm_radicalform($subject, $config);
+				$plugin = new Wt_amocrm_radicalform($subject, $config);
+				$plugin->setApplication(Factory::getApplication());
+				return $plugin;
 			}
 		);
 	}
