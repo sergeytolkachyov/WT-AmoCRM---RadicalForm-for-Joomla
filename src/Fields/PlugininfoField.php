@@ -9,12 +9,13 @@
  */
 
 namespace Joomla\Plugin\System\Wt_amocrm_radicalform\Fields;
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\NoteField;
 use Joomla\CMS\Language\Text;
-use \Joomla\CMS\Factory;
+use Joomla\CMS\Factory;
+use function defined;
 
+defined('_JEXEC') or die;
 
 class PlugininfoField extends NoteField
 {

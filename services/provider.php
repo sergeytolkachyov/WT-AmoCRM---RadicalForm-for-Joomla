@@ -8,7 +8,7 @@
  * @since       1.0.0
  */
 
-defined('_JEXEC') || die;
+\defined('_JEXEC') || die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
