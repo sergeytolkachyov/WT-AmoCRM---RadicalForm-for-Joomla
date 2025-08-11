@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    WT Amocrm - Radical From
- * @version    1.2.0
+ * @version    1.3.0
  * @author Sergey Tolkachyov <https://web-tolk.ru>
- * @сopyright (c) 2022 - November 2023 Sergey Tolkachyov. All rights reserved.
+ * @сopyright (c) 2022 - August 2025 Sergey Tolkachyov. All rights reserved.
  * @license    GNU/GPL 3 license
  * @link https://web-tolk.ru
  */
@@ -53,33 +53,42 @@ class PlugininfoField extends NoteField
 		");
 
 		$wt_plugin_info = simplexml_load_file(JPATH_SITE . "/plugins/" . $folder . "/" . $element . "/" . $element . ".xml");
+		/* @var $doc Joomla\CMS\Document\Document */
+		$doc = Factory::getApplication()->getDocument();
+		$doc->getWebAssetManager()->addInlineStyle('
+            #web_tolk_link {
+			text-align: center;
+			}
+			#web_tolk_link::before{
+				content: "";
+			}
+        ');
 
-
-		return $html = '<div class="d-flex shadow p-4">
-			<div class="flex-shrink-0">
-				<a href="https://web-tolk.ru" target="_blank">
-					<svg class="plugin-info-img-svg" width="200" height="50" xmlns="http://www.w3.org/2000/svg">
-						<g>
-							<title>Go to https://web-tolk.ru</title>
-							<text font-weight="bold" xml:space="preserve" text-anchor="start"
-							      font-family="Helvetica, Arial, sans-serif" font-size="32" id="svg_3" y="36.085949"
-							      x="8.152073" stroke-opacity="null" stroke-width="0" stroke="#000"
-							      fill="#0fa2e6">Web</text>
-							<text font-weight="bold" xml:space="preserve" text-anchor="start"
-							      font-family="Helvetica, Arial, sans-serif" font-size="32" id="svg_4" y="36.081862"
-							      x="74.239105" stroke-opacity="null" stroke-width="0" stroke="#000"
-							      fill="#384148">Tolk</text>
-						</g>
-					</svg>
-				</a>
+		return '</div>
+		<div class="card container shadow-sm w-100 p-0">
+			<div class="wt-b24-plugin-info row">
+				<div class="col-12 col-md-2 d-flex justify-content-center align-items-center">
+					<a href="https://web-tolk.ru" target="_blank" id="web_tolk_link" title="Go to https://web-tolk.ru">
+							<svg width="200" height="50" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+								 <g>
+								  <title>Go to https://web-tolk.ru</title>
+								  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="32" id="svg_3" y="36.085949" x="8.152073" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#0fa2e6">Web</text>
+								  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="32" id="svg_4" y="36.081862" x="74.239105" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#384148">Tolk</text>
+								 </g>
+							</svg>
+					</a>
+				</div>
+				<div class="col-12 col-md-10">
+					<div class="card-header bg-white p-1">
+						<span class="badge bg-success">v.' . $wt_plugin_info->version . '</span>
+					</div>
+					<div class="card-body">
+						' . Text::_("PLG_".strtoupper($element)."_DESC") . '
+					</div>
+				</div>
 			</div>
-			<div class="flex-grow-1 ms-3">
-				<span class="badge bg-success text-white">v.' . $wt_plugin_info->version . '</span>
-				' . Text::_("PLG_" . strtoupper($element) . "_DESC") . '
-			</div>
-		</div>';
-
-
+		</div><div>
+		';
 	}
 
 	/**
@@ -96,4 +105,3 @@ class PlugininfoField extends NoteField
 
 }
 
-?>

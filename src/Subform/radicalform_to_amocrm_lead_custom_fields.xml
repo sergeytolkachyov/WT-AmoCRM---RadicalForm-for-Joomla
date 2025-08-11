@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
-    <field name="radical_form_field_name"
-           type="text"
-           label="PLG_WT_AMOCRM_RADICALFORM_RADICAL_FORM_FIELD_NAME"/>
-    <field addfieldprefix="Webtolk\Amocrm\Fields"
-           type="Leadcustomfieldslist"
-           name="lead_custom_field_id"
-           label="PLG_WT_AMOCRM_RADICALFORM_LEAD_CUSTOM_FIELD_ID"/>
+    <fieldset name="radical_form_field_name_fieldset" label="Joomla">
+        <field name="radical_form_field_name"
+               type="text"
+               label="PLG_WT_AMOCRM_RADICALFORM_RADICAL_FORM_FIELD_NAME"
+               class="form-control-sm"/>
+        <field name="amocrm_field_or_comment"
+               type="radio"
+               class="btn-group btn-group-sm"
+               label="PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT"
+               default="field">
+            <option value="field">PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT_FIELD</option>
+            <option value="comment">PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT_COMMENT</option>
+        </field>
+    </fieldset>
+    <fieldset name="amocrm_field_fieldset" label="AmoCRM">
+        <field addfieldprefix="Webtolk\Amocrm\Fields"
+               type="Leadcustomfieldslist"
+               name="lead_custom_field_id"
+               label="PLG_WT_AMOCRM_RADICALFORM_LEAD_CUSTOM_FIELD_ID"
+               class="form-select-sm"
+               showon="amocrm_field_or_comment:field"/>
+        <field type="note"
+               name="data_will_be_placed_to_lead_comment"
+               description="PLG_WT_AMOCRM_RADICALFORM_DATA_WILL_BE_PLACED_TO_LEAD_COMMENT"
+               class="alert alert-info"
+               showon="amocrm_field_or_comment:comment"/>
+    </fieldset>
 </form>

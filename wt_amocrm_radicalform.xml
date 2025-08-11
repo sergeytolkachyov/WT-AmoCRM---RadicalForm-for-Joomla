@@ -4,10 +4,10 @@
     <author>Sergey Tolkachyov</author>
     <authorEmail>info@web-tolk.ru</authorEmail>
     <authorUrl>https://web-tolk.ru/</authorUrl>
-	<creationDate>November 2023</creationDate>
+	<creationDate>August 2025</creationDate>
     <copyright>Sergey Tolkachyov</copyright>
     <license>GNU General Public License v3.0</license>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <description>PLG_WT_AMOCRM_RADICALFORM_DESC</description>
     <namespace path="src">Joomla\Plugin\System\Wt_amocrm_radicalform</namespace>
     <scriptfile>script.php</scriptfile>
@@ -46,6 +46,7 @@
                        layout="joomla.form.field.subform.repeatable-table"
                        formsource="plugins/system/wt_amocrm_radicalform/src/Subform/radicalform_to_amocrm_lead_custom_fields.xml"
                        multiple="true"
+                       groupByFieldset="true"
                        buttons="add,remove"
                        parentclass="stack"
                 />

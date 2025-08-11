@@ -1,43 +1,43 @@
 <?php
 /**
  * @package    WT Amocrm - Radical From
- * @version    1.2.0
- * @author Sergey Tolkachyov <https://web-tolk.ru>
- * @сopyright (c) 2022 - November 2023 Sergey Tolkachyov. All rights reserved.
+ * @version    1.3.0
+ * @author     Sergey Tolkachyov <https://web-tolk.ru>
+ * @сopyright (c) 2022 - August 2025 Sergey Tolkachyov. All rights reserved.
  * @license    GNU/GPL 3 license
- * @link https://web-tolk.ru
+ * @link       https://web-tolk.ru
  */
 
-// No direct access
-
 namespace Joomla\Plugin\System\Wt_amocrm_radicalform\Extension;
-defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Factory;
+use Exception;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Webtolk\Amocrm\Amocrm;
-use Joomla\CMS\Language\Text;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 {
 
 	protected $autoloadLanguage = true;
-	protected $allowLegacyListeners = false;
 
 	/**
 	 *
 	 * @return array
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 * @since 4.1.0
 	 *
 	 */
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onAfterDispatch' => 'onAfterDispatch',
+			'onAfterDispatch'         => 'onAfterDispatch',
 			'onBeforeSendRadicalForm' => 'onBeforeSendRadicalForm',
 		];
 	}
@@ -45,16 +45,16 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Добавляем js-скрпиты на HTML-фронт
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	function onAfterDispatch($event) : void
+	function onAfterDispatch($event): void
 	{
 		// We are not work in Joomla API or CLI or Admin area
 		if (!$this->getApplication()->isClient('site')) return;
 
 		$doc = $this->getApplication()->getDocument();
-		$wa = $doc->getWebAssetManager();
+		$wa  = $doc->getWebAssetManager();
 		// Show plugin version in browser console from js-script for UTM
 		$wt_amocrm_radicalform_plugin_info = simplexml_load_file(JPATH_SITE . "/plugins/system/wt_amocrm_radicalform/wt_amocrm_radicalform.xml");
 		$doc->addScriptOptions('plg_system_wt_amocrm_radicalform_version', (string) $wt_amocrm_radicalform_plugin_info->version);
@@ -74,7 +74,7 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 	 * @see  https://hika.su/rasshireniya/radical-form
 	 * @link https://web-tolk.ru
 	 */
-	public function onBeforeSendRadicalForm($event) : void
+	public function onBeforeSendRadicalForm($event): void
 	{
 		[$clear, $input, $params] = array_values($event->getArguments());
 
@@ -87,10 +87,12 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 			'created_by' => 0, //ID пользователя, создающий сделку. При передаче значения 0, сделка будет считаться созданной роботом. Поле не является обязательным
 		];
 
+		$radicalform_fields_to_amo_comment = '';
+
 		// Название сделки в Amo CRM
-		if (!empty($input["rfSubject"]))
+		if (!empty($input['rfSubject']))
 		{
-			$lead_data['name'] = $input["rfSubject"];
+			$lead_data['name'] = $input['rfSubject'];
 		}
 		else
 		{
@@ -121,22 +123,22 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 
 
 		// URL страницы, с которой отправлена форма
-		if (!empty($input["url"]))
+		if (!empty($input['url']))
 		{
 			$lead_data['_embedded']['metadata']['referer'] = $input['url'];
 		}
 		$contact = [];
 
 		// URL страницы, с которой отправлена форма
-		if (!empty($input["name"]))
+		if (!empty($input['name']))
 		{
 			$contact['first_name'] = $input['name'];
 		}
-//		//  Process form data
+
 		foreach ($clear as $key => $value)
 		{
 
-			if ($key == "PHONE" || $key == "phone")
+			if (strtolower($key) == "phone")
 			{
 				$phones = [
 					'field_code' => 'PHONE',
@@ -154,8 +156,7 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 							'enum_code' => 'WORK',
 							'value'     => $phone
 						];
-
-					}//end FOREACH
+					}
 				}
 				else
 				{
@@ -168,17 +169,17 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 					];
 				}
 				$contact['custom_fields_values'][] = $phones;
-				/*
+				/**
 				 * Other form data. Not email or phone
 				 */
 			}
-			elseif ($key == "EMAIL" || $key == "email")
+			elseif (strtolower($key) == "email")
 			{
 				$emails = [
 					'field_code' => 'EMAIL',
 					'values'     => []
 				];
-				/*
+				/**
 				 * If any phone numbers or emails are found
 				 */
 				if (is_array($value))
@@ -191,9 +192,7 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 							'value'     => $email
 						];
 
-					}//end FOREACH
-
-
+					}
 				}
 				else
 				{
@@ -206,7 +205,7 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 					];
 				}
 				$contact['custom_fields_values'][] = $emails;
-				/*
+				/**
 				 * Other form data. Not email or phone
 				 */
 			}
@@ -217,19 +216,29 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 			foreach ($this->params->get('radicalform_to_amocrm_lead_custom_fields') as $key => $value)
 			{
 				$radical_form_field_name = $value->radical_form_field_name;
+				// `field` or `comment`
+				$amocrm_field_or_comment = $value->amocrm_field_or_comment ?? 'field';
 
 				if (array_key_exists($radical_form_field_name, $input) && !empty($input[$radical_form_field_name]))
 				{
 
-					$lead_custom_field_array             = [
-						'field_id' => (int) $value->lead_custom_field_id,
-						'values'   => [
-							[
-								'value' => ((is_array($input[$radical_form_field_name])) ? implode(', ', $input[$radical_form_field_name]) : $input[$radical_form_field_name])
+					if ($amocrm_field_or_comment == 'field')
+					{
+						$lead_custom_field_array             = [
+							'field_id' => (int) $value->lead_custom_field_id,
+							'values'   => [
+								[
+									'value' => ((is_array($input[$radical_form_field_name])) ? implode(', ', $input[$radical_form_field_name]) : $input[$radical_form_field_name])
+								]
 							]
-						]
-					];
-					$lead_data["custom_fields_values"][] = $lead_custom_field_array;
+						];
+						$lead_data["custom_fields_values"][] = $lead_custom_field_array;
+					}
+					else
+					{
+						$lang = $this->getApplication()->getLanguage();
+						$radicalform_fields_to_amo_comment .= ($lang->hasKey('PLG_WT_AMOCRM_RADICALFORM_AMOCRM_RF_FIELD_NAME_' . strtoupper($radical_form_field_name)) ? Text::_('PLG_WT_AMOCRM_RADICALFORM_AMOCRM_RF_FIELD_NAME_' . strtoupper($radical_form_field_name)) : $radical_form_field_name) . ': ' . ((is_array($input[$radical_form_field_name])) ? implode(', ', $input[$radical_form_field_name]) : $input[$radical_form_field_name]) . PHP_EOL;
+					}
 				}
 			}
 		}
@@ -282,8 +291,18 @@ class Wt_amocrm_radicalform extends CMSPlugin implements SubscriberInterface
 		$lead_id = $result[0]->id;
 //		$contact_id = $result[0]->contact_id;
 
-		$notes = [];
 
+		$notes = [];
+		if (!empty($radicalform_fields_to_amo_comment))
+		{
+			$notes[] = [
+				'created_by' => 0, // 0 - создал робот
+				'note_type'  => 'common',
+				'params'     => [
+					'text' => $radicalform_fields_to_amo_comment,
+				]
+			];
+		}
 		$notes[] = [
 			'created_by' => 0, // 0 - создал робот
 			'note_type'  => 'common',
