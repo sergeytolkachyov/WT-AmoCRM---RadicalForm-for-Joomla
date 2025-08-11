@@ -2,7 +2,7 @@
 Plugin for sending data to amoCRM from Joomla feedback forms created using the professional Radical Form plugin. 
 - [More info on developer site](https://web-tolk.ru/dev/joomla-plugins/wt-amocrm-radicalform.html)
 - Radical Form joomla callback plugin. Download and docs on [Site](https://hika.su/rasshireniya/radical-form) [GitHub](https://github.com/Delo-Design/radicalform)
-![image](https://user-images.githubusercontent.com/6236403/205810267-ad5dc8c7-0b6f-409e-9cab-8e18c39d99e9.png)
+<img width="1359" height="767" alt="image" src="https://github.com/user-attachments/assets/ee4144aa-fc62-41fa-9ecc-c58ebec909b3" />
 
 ## Plugin features
 - creating leads in Amo CRM
