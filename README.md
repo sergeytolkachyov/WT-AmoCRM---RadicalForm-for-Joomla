@@ -1,7 +1,7 @@
 # WT AmoCRM - RadicalForm for Joomla
 Plugin for sending data to amoCRM from Joomla feedback forms created using the professional Radical Form plugin. 
 - [More info on developer site](https://web-tolk.ru/dev/joomla-plugins/wt-amocrm-radicalform.html)
-- Radical Form joomla callback plugin. Download and docs on [Site](https://hika.su/rasshireniya/radical-form) [GitHub](https://github.com/Delo-Design/radicalform)
+- Radical Form Joomla callback plugin. Download and docs on [Site](https://hika.su/rasshireniya/radical-form) [GitHub](https://github.com/Delo-Design/radicalform)
 <img width="1359" height="767" alt="image" src="https://github.com/user-attachments/assets/ee4144aa-fc62-41fa-9ecc-c58ebec909b3" />
 
 ## Plugin features

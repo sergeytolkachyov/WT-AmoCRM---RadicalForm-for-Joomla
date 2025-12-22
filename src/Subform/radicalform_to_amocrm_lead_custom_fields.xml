@@ -11,20 +11,39 @@
                label="PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT"
                default="field">
             <option value="field">PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT_FIELD</option>
+            <option value="contact_field">PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT_CONTACT_FIELD</option>
             <option value="comment">PLG_WT_AMOCRM_RADICALFORM_AMOCRM_FIELD_OR_COMMENT_COMMENT</option>
         </field>
     </fieldset>
     <fieldset name="amocrm_field_fieldset" label="AmoCRM">
         <field addfieldprefix="Webtolk\Amocrm\Fields"
-               type="Leadcustomfieldslist"
+               type="leadcustomfieldslist"
                name="lead_custom_field_id"
                label="PLG_WT_AMOCRM_RADICALFORM_LEAD_CUSTOM_FIELD_ID"
                class="form-select-sm"
                showon="amocrm_field_or_comment:field"/>
+        <field addfieldprefix="Webtolk\Amocrm\Fields"
+               type="contactcustomfieldslist"
+               name="contact_custom_field_id"
+               label="PLG_WT_AMOCRM_RADICALFORM_CONTACT_CUSTOM_FIELD_ID"
+               layout="joomla.form.field.list-fancy-select"
+               class="form-select-sm"
+               showon="amocrm_field_or_comment:contact_field"/>
         <field type="note"
                name="data_will_be_placed_to_lead_comment"
                description="PLG_WT_AMOCRM_RADICALFORM_DATA_WILL_BE_PLACED_TO_LEAD_COMMENT"
                class="alert alert-info"
                showon="amocrm_field_or_comment:comment"/>
+        <field type="list"
+               label="PLG_WT_AMOCRM_RADICALFORM_CUSTOM_FIELD_DATA_TYPE"
+               name="custom_field_data_type"
+               description="PLG_WT_AMOCRM_RADICALFORM_CUSTOM_FIELD_DATA_TYPE_DESC"
+               default="string"
+               showon="amocrm_field_or_comment!:comment">
+            <option value="string">PLG_WT_AMOCRM_RADICALFORM_CUSTOM_FIELD_DATA_TYPE_STRING</option>
+            <option value="int">PLG_WT_AMOCRM_RADICALFORM_CUSTOM_FIELD_DATA_TYPE_INT</option>
+            <option value="float">PLG_WT_AMOCRM_RADICALFORM_CUSTOM_FIELD_DATA_TYPE_FLOAT</option>
+            <option value="bool">PLG_WT_AMOCRM_RADICALFORM_CUSTOM_FIELD_DATA_TYPE_BOOL</option>
+        </field>
     </fieldset>
 </form>

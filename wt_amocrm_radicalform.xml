@@ -4,10 +4,10 @@
     <author>Sergey Tolkachyov</author>
     <authorEmail>info@web-tolk.ru</authorEmail>
     <authorUrl>https://web-tolk.ru/</authorUrl>
-	<creationDate>August 2025</creationDate>
+	<creationDate>December 2025</creationDate>
     <copyright>Sergey Tolkachyov</copyright>
     <license>GNU General Public License v3.0</license>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <description>PLG_WT_AMOCRM_RADICALFORM_DESC</description>
     <namespace path="src">Joomla\Plugin\System\Wt_amocrm_radicalform</namespace>
     <scriptfile>script.php</scriptfile>
@@ -30,7 +30,7 @@
             <fieldset name="basic">
                 <field addfieldprefix="Joomla\Plugin\System\Wt_amocrm_radicalform\Fields" type="plugininfo" name="plugininfo"/>
                 <field addfieldprefix="Webtolk\Amocrm\Fields"
-                       type="Leadspipelineslist"
+                       type="leadspipelineslist"
                        name="pipeline_id"
                        label="PLG_WT_AMOCRM_RADICALFORM_PIPELINE_ID"
                        description="PLG_WT_AMOCRM_RADICALFORM_PIPELINE_ID_DESC"

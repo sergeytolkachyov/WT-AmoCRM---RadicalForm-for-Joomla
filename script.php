@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    WT Amocrm - Radical From
- * @version    1.3.0
+ * @version    1.4.0
  * @author Sergey Tolkachyov <https://web-tolk.ru>
- * @сopyright (c) 2022 - August 2025 Sergey Tolkachyov. All rights reserved.
+ * @copyright (c) 2022 - December 2025 Sergey Tolkachyov. All rights reserved.
  * @license    GNU/GPL 3 license
  * @link https://web-tolk.ru
  */
